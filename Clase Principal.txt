@@ -1,0 +1,73 @@
+//////////////////////////////////
+
+Clase Principal
+
+public class Principal extends ApplicationAdapter {
+	SpriteBatch batch;
+	Texture img;
+	Stage stage;
+	int frame;
+	
+	@Override
+	public void create () {
+		batch = new SpriteBatch();
+		stage = new Stage();
+		stage.addActor(new Bomba());
+		
+	}
+
+	@Override
+	public void render () {
+		Gdx.gl.glClearColor(0, 0, 1, 2);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		stage.draw();
+		stage.act();
+		
+	}
+
+}
+
+
+
+////////////////////////////////////////////////
+
+Clase para Animar al Personaje
+
+public class Bomba extends Actor {
+
+	ArrayList<Image>images;
+	int dibujo_actual = 0;
+	float tiempo_act = 0;
+	
+	public Bomba(){
+		super();
+		images = new ArrayList<Image>();
+		images.add(new Image(new Texture("bomba01.png")));
+		images.add(new Image(new Texture("bomba02.png")));
+		images.add(new Image(new Texture("bomba03.png")));
+	}
+
+	@Override
+	public void act(float delta) {
+		System.out.println(delta);
+		super.act(delta);
+		tiempo_act+= delta;
+		if(tiempo_act>0.1f){
+		dibujo_actual++;
+		tiempo_act = 0;
+		}
+		if(dibujo_actual >= images.size()){
+			dibujo_actual = 0;
+		}
+		
+	}
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		// TODO Auto-generated method stub
+		super.draw(batch, parentAlpha);
+		images.get(dibujo_actual).draw(batch, parentAlpha);
+	}
+
+	
+}
